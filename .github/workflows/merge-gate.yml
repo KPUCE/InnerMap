@@ -1,0 +1,112 @@
+# InnerMap 머지 게이트 (파이프라인 ①) — PR이 열릴 때마다 실행
+# 설계: 워크플로우 하나 + 경로 감지 잡 + 조건부 잡 + 최종 gate 잡
+# 이유: 워크플로우 수준 paths 필터를 쓰면 해당 경로를 안 건드린 PR에서
+#       필수 체크가 영원히 '대기'로 남아 머지가 잠긴다(모노레포 함정).
+#       잡 수준 조건은 '건너뜀(skipped)'으로 보고되어 게이트가 정상 동작한다.
+name: merge-gate
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  # 0) 어떤 구역이 바뀌었는지 감지
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      ios: ${{ steps.f.outputs.ios }}
+      server: ${{ steps.f.outputs.server }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: f
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            ios:
+              - 'ios/**'
+            server:
+              - 'server/**'
+              - 'admin-web/**'
+              - 'batch/**'
+
+  # 1) PR 크기 검사 — DoD ② 변경 300줄 이하 (항상 실행)
+  pr-size:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 300줄 초과 검사
+        env:
+          ADD: ${{ github.event.pull_request.additions }}
+          DEL: ${{ github.event.pull_request.deletions }}
+          LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        run: |
+          TOTAL=$((ADD + DEL))
+          echo "변경 줄 수: +$ADD -$DEL = $TOTAL"
+          if [[ "$LABELS" == *"size:exempt"* ]]; then
+            echo "size:exempt 라벨 — PO 승인 하에 예외 처리"; exit 0
+          fi
+          if [ "$TOTAL" -gt 300 ]; then
+            echo "::error::변경이 300줄을 넘습니다($TOTAL줄). PR을 분할하세요 (DoD ②)."
+            exit 1
+          fi
+
+  # 2) 서버·관리자웹·배치 검사 — /server /admin-web /batch 변경 시
+  server-test:
+    needs: changes
+    if: needs.changes.outputs.server == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm, cache-dependency-path: server/package-lock.json }
+      - name: 의존성 설치·빌드·테스트
+        working-directory: server
+        run: |
+          npm ci
+          npm run build --if-present
+          npm test
+
+  # 3) iOS 빌드 검사 — /ios 변경 시 (공개 저장소는 macOS 러너 무료)
+  ios-build:
+    needs: changes
+    if: needs.changes.outputs.ios == 'true'
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: 빌드 (서명 없이 컴파일 확인)
+        working-directory: ios
+        run: |
+          xcodebuild build -scheme InnerMap \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO
+
+  # 4) 시크릿 스캔 — 항상 실행
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: gitleaks/gitleaks-action@v2
+        env: { GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' }
+
+  # (예약) AI 코드 리뷰 — Ⅺ장에서 API 키 시크릿 설정 후 활성화
+  # ai-review:
+  #   runs-on: ubuntu-latest
+  #   steps: [ ... ]
+
+  # 5) 최종 게이트 — 브랜치 보호에는 이 체크 하나만 필수로 등록한다
+  gate:
+    needs: [pr-size, server-test, ios-build, secret-scan]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: 실패·취소 여부 종합
+        run: |
+          RESULTS="${{ join(needs.*.result, ' ') }}"
+          echo "잡 결과: $RESULTS"
+          for r in $RESULTS; do
+            if [ "$r" = "failure" ] || [ "$r" = "cancelled" ]; then
+              echo "::error::하나 이상의 검사가 실패했습니다 — 머지 불가"
+              exit 1
+            fi
+          done
+          echo "게이트 통과 (건너뜀은 '해당 없음'으로 취급)"
