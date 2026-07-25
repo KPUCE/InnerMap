@@ -1,0 +1,24 @@
+name: 버그 이슈
+description: 재현 가능한 결함 보고
+labels: ["type:issue"]
+body:
+  - type: textarea
+    id: repro
+    attributes:
+      label: 재현 절차
+      description: 번호 목록으로, 누구나 따라 할 수 있게
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 기대 동작 / 실제 동작
+    validations:
+      required: true
+  - type: input
+    id: trace
+    attributes:
+      label: 추적성
+      description: 위반된 R-번호 또는 AC, 발견 경로(리뷰·테스트·현장)
+    validations:
+      required: true
