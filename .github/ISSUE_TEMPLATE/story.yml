@@ -1,0 +1,35 @@
+name: 스토리 이슈
+description: 수용 기준과 추적성을 갖춘 작업 이슈
+labels: ["type:issue"]
+body:
+  - type: textarea
+    id: story
+    attributes:
+      label: 스토리
+      description: 누가·무엇을·왜 — 한 문장
+      placeholder: 예) 시각장애 학생으로서 이름 일부·별칭으로 건물을 찾고 싶다
+    validations:
+      required: true
+  - type: textarea
+    id: ac
+    attributes:
+      label: 수용 기준 (AC)
+      description: 시험 가능한 체크리스트. 위임의 완료 조건이자 테스트의 원본
+      value: |
+        - [ ]
+        - [ ]
+    validations:
+      required: true
+  - type: input
+    id: trace
+    attributes:
+      label: 추적성
+      description: 관련 R-번호, ADR
+      placeholder: 예) R-01/02, R-01b · ADR-004
+    validations:
+      required: true
+  - type: textarea
+    id: ref
+    attributes:
+      label: 참고
+      description: 화면 초안, 관련 이슈 — AI에게도 사람에게도 컨텍스트
