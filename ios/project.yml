@@ -1,0 +1,52 @@
+# InnerMap iOS 앱 — XcodeGen 정의 (#8)
+# .xcodeproj는 이 파일에서 생성해 커밋한다: xcodegen generate (docs/dev-setup.md)
+# 스킴 이름 InnerMap은 CI ios-build 잡(xcodebuild -scheme InnerMap)과 맞춰야 한다.
+name: InnerMap
+options:
+  bundleIdPrefix: kr.ac.tukorea.innermap
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "16.2"
+
+targets:
+  InnerMap:
+    type: application
+    platform: iOS
+    sources: [InnerMap]
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        # CFBundleVersion·CFBundleShortVersionString은 아래 두 설정에서 생성된다 —
+        # 없으면 시뮬레이터가 "valid CFBundleVersion" 오류로 설치를 거부한다 (detours D4)
+        CURRENT_PROJECT_VERSION: 1
+        MARKETING_VERSION: "0.1.0"
+        PRODUCT_BUNDLE_IDENTIFIER: kr.ac.tukorea.innermap.app
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        SWIFT_VERSION: "5.0"
+        CODE_SIGN_STYLE: Automatic
+
+  InnerMapTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [InnerMapTests]
+    dependencies:
+      - target: InnerMap
+
+  InnerMapUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [InnerMapUITests]
+    dependencies:
+      - target: InnerMap
+
+schemes:
+  InnerMap:
+    build:
+      targets:
+        InnerMap: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets: [InnerMapTests, InnerMapUITests]
