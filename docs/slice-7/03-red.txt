@@ -1,0 +1,43 @@
+
+> innermap-server@0.1.0 test
+> node --test
+
+✔ 리허설: 수정 후 통과하는 테스트 (#24) (0.317958ms)
+node:internal/modules/cjs/loader:1573
+  throw err;
+  ^
+
+Error: Cannot find module '../src/app'
+Require stack:
+- /Users/gijeon/MindMap/InnerMap/server/test/search-api.test.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1569:15)
+    at wrapResolveFilename (node:internal/modules/cjs/loader:1123:27)
+    at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1147:10)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1174:12)
+    at Module._load (node:internal/modules/cjs/loader:1346:5)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)
+    at Module.require (node:internal/modules/cjs/loader:1679:12)
+    at require (node:internal/modules/helpers:196:16)
+    at Object.<anonymous> (/Users/gijeon/MindMap/InnerMap/server/test/search-api.test.js:6:23)
+    at Module._compile (node:internal/modules/cjs/loader:1934:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/Users/gijeon/MindMap/InnerMap/server/test/search-api.test.js' ]
+}
+
+Node.js v26.5.0
+✖ test/search-api.test.js (31.338458ms)
+✔ 스모크: 테스트 러너가 동작한다 (0.304208ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 41.196792
+
+✖ failing tests:
+
+test at test/search-api.test.js:1:1
+✖ test/search-api.test.js (31.338458ms)
+  'test failed'
