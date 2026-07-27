@@ -6,6 +6,8 @@ options:
   bundleIdPrefix: kr.ac.tukorea.innermap
   deploymentTarget:
     iOS: "17.0"
+  # XcodeGen 2.46은 프로젝트 형식 77(Xcode 16)로만 생성한다 — xcodeVersion·objectVersion
+  # 옵션으로는 못 내린다. CI 러너를 macos-15(Xcode 16.x)로 올려 해결 (detours D7)
   xcodeVersion: "16.2"
 
 targets:

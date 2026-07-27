@@ -23,6 +23,12 @@
 - 한글 질의는 실행 환경변수 `UITEST_QUERY`(DEBUG 한정 훅)로 주입. 결과 행은 `.accessibilityElement(children:.ignore)`라 staticText가 아니어서 타입 무관(label 조건) 조회로 검증 — 이것도 한 번 틀리고 고침(UI 테스트 RED 1회).
 - 교훈: 자동화 가능한 검증(XCUITest)이 손 조작 데모보다 증거로도 강하다. 단 VoiceOver '완주'(AC ③)는 시뮬레이터+XCUITest로 절반만 — 실기기 검증은 사람 몫으로 남김.
 
+## D7 — CI ios-build 첫 실행 실패: 프로젝트 형식 77 vs 러너 Xcode 15.4
+- PR #30 첫 CI에서 ios-build가 9초 만에 실패. `xcodebuild: error: ... future Xcode project file format (77)` — macos-14 러너의 기본 Xcode가 15.4인데 XcodeGen 2.46은 Xcode 16 형식(objectVersion 77)으로만 생성한다.
+- 잘못 든 길: project.yml에서 `xcodeVersion: "15.4"` → 여전히 77. `objectVersion: 56` 옵션 → 무시됨. 프로젝트 쪽에서 형식을 내리는 길은 없었다.
+- 해결(저자 승인): `ios-build`를 `runs-on: macos-15`(기본 Xcode 16.x)로 올림. 대안이었던 macos-14+xcode-select 스텝은 러너 이미지 구성 의존이라 배제.
+- 교훈: 로컬(16.2)과 CI(15.4)의 도구 버전 차이는 로컬 초록으로는 안 드러난다 — CI 첫 실행이 곧 검증이다.
+
 ## D2 — pg_trgm GIN 인덱스가 시드 규모에서 안 쓰임 (설계 허점, 기록만)
 - EXPLAIN 결과 19행에서 기본 플래너는 `building_name_trgm`을 무시하고 Seq Scan을 택한다. `enable_seqscan=off`로 강제해야 인덱스를 쓴다.
 - 게다가 trigram은 3글자 미만 패턴('공학', '공')을 좁히지 못해, 그런 질의엔 인덱스 이득이 아예 없다(온전한 3-gram 부재).

@@ -81,10 +81,11 @@ jobs:
           npm test
 
   # 3) iOS 빌드 검사 — /ios 변경 시 (공개 저장소는 macOS 러너 무료)
+  # macos-15: XcodeGen이 만드는 프로젝트 형식 77은 Xcode 16이 필요 — macos-14(기본 15.4)는 못 연다
   ios-build:
     needs: changes
     if: needs.changes.outputs.ios == 'true'
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
       - name: 빌드 (서명 없이 컴파일 확인)
