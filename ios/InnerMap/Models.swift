@@ -25,6 +25,15 @@ struct BuildingResult: Codable, Equatable, Identifiable {
     }
 }
 
+// #9 상세 응답 — GET /api/buildings/{id} (docs/slice-9/design.md)
+struct BuildingDetail: Codable, Equatable {
+    let id: Int
+    let name: String
+    let lat: Double
+    let lng: Double
+    let aliases: [String]
+}
+
 struct APIErrorBody: Codable, Equatable {
     let errorCode: String
     let message: String

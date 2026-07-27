@@ -40,6 +40,18 @@ final class SearchFlowUITests: XCTestCase {
         XCTAssertTrue(message.waitForExistence(timeout: 10), "0건 대안 안내가 보여야 함")
     }
 
+    func test_상세진입_시뮬레이터는_거리만안내() {
+        // #9: 결과 행 탭 → 상세. 시뮬레이터엔 나침반이 없어 정확도 무효(-1) →
+        // ADR-005 ③ 축소 경로("방위를 확인할 수 없어 거리만 안내") 검증
+        let app = launchApp(query: "도서관")
+        let row = element(in: app, withLabel: "종합교육관, 약 135미터, 도서관(으)로 일치")
+        XCTAssertTrue(row.waitForExistence(timeout: 10))
+        row.tap()
+        let announcement = app.staticTexts.matching(
+            NSPredicate(format: "label CONTAINS %@", "방위를 확인할 수 없어")).firstMatch
+        XCTAssertTrue(announcement.waitForExistence(timeout: 10), "거리만 안내 문구가 보여야 함")
+    }
+
     func test_검색입력이_접근성요소로_노출() {
         let app = XCUIApplication()
         app.launch()

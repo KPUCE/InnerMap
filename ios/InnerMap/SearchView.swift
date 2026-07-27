@@ -48,14 +48,19 @@ struct SearchView: View {
         case .results(let items):
             // 결과 목록 — 행 단위로 요소를 합쳐 VoiceOver가 한 번에 낭독 (AC ①)
             List(items) { item in
-                VStack(alignment: .leading) {
-                    Text(item.name).font(.headline)
-                    Text(rowSubtitle(item))
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                NavigationLink {
+                    BuildingDetailView(buildingId: item.id, buildingName: item.name) // #9 상세로
+                } label: {
+                    VStack(alignment: .leading) {
+                        Text(item.name).font(.headline)
+                        Text(rowSubtitle(item))
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
                 }
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel(SearchViewModel.spokenLabel(for: item))
+                .accessibilityHint("상세 안내를 들으려면 선택하세요.")
             }
             .listStyle(.plain)
             .accessibilityLabel("검색 결과 \(items.count)건")
