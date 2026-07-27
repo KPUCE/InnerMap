@@ -1,0 +1,29 @@
+
+> innermap-server@0.1.0 test
+> node --test
+
+✔ 리허설: 수정 후 통과하는 테스트 (#24) (0.305792ms)
+✔ 이름 부분일치: "공학" → 공학관 7개동, 거리 오름차순 (37.73675ms)
+✔ 별칭 매칭: "도서관" → 종합교육관, matched_alias 채움 (AC 별칭 합집합) (3.63225ms)
+✔ 이름 매칭이면 matched_alias는 null (2.849625ms)
+✔ 별칭 "티아이피" → TIP (2.757709ms)
+✔ distance_m: 현위치=공학관E동이면 첫 결과 거리 ≈ 0 (2.837ms)
+✔ 한 글자 질의 "공" 허용 (오류 아님) (2.585541ms)
+✔ 상한: limit 초과 요청도 최대 10건 (AC 최대 10건) (2.607834ms)
+✔ 0건: "없는건물" → count 0 + reason_code NO_MATCH (AC 사유 코드) (2.427209ms)
+✔ 게시 필터: draft 건물은 노출 금지 (R-12b) (16.685041ms)
+✔ 빈 질의 → 400 EMPTY_QUERY (1.988292ms)
+✔ 공백만 질의 → 400 EMPTY_QUERY (1.68875ms)
+✔ lat 누락 → 400 INVALID_LOCATION (1.652875ms)
+✔ lat 범위 밖(91) → 400 INVALID_LOCATION (1.607083ms)
+✔ lng 비수치 → 400 INVALID_LOCATION (1.569875ms)
+✔ limit 비정수 → 400 INVALID_PARAM (1.753333ms)
+✔ 스모크: 테스트 러너가 동작한다 (0.3005ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 154.072292
