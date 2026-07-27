@@ -1,0 +1,80 @@
+# #9 RED — 구현 전 테스트 실패 출력 (2026-07-27)
+
+## 서버 (node --test) — 신규 5개 실패, 기존 17개 통과
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/building-detail.test.js:43:1
+✖ 미게시 건물 → 404 (R-12b 존재 은닉) (24.035584ms)
+  SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+      at JSON.parse (<anonymous>)
+      at parseJSONFromBytes (node:internal/deps/undici/undici:4349:19)
+      at successSteps (node:internal/deps/undici/undici:6987:27)
+      at readAllBytes (node:internal/deps/undici/undici:5811:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+test at test/building-detail.test.js:59:1
+✖ 없는 id → 404 NOT_FOUND (2.0975ms)
+  SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+      at JSON.parse (<anonymous>)
+      at parseJSONFromBytes (node:internal/deps/undici/undici:4349:19)
+      at successSteps (node:internal/deps/undici/undici:6987:27)
+      at readAllBytes (node:internal/deps/undici/undici:5811:13)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+test at test/building-detail.test.js:65:1
+✖ 잘못된 id("abc") → 400 INVALID_PARAM (1.141625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  404 !== 400
+  
+      at TestContext.<anonymous> (/Users/gijeon/MindMap/InnerMap/server/test/building-detail.test.js:67:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 404,
+    expected: 400,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+## iOS (xcodebuild test) — 미구현 타입으로 컴파일 실패
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:7:26: error: cannot find 'BuildingDetail' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:11:28: error: cannot find type 'BuildingDetail' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:12:46: error: cannot find type 'BuildingDetail' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:10:31: error: cannot find type 'BuildingDetailServicing' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/BearingEngineTests.swift:13:17: error: cannot find 'BearingEngine' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/BearingEngineTests.swift:18:17: error: cannot find 'BearingEngine' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/BearingEngineTests.swift:23:17: error: cannot find 'BearingEngine' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/BearingEngineTests.swift:28:17: error: cannot find 'BearingEngine' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/BearingEngineTests.swift:35:24: error: cannot find 'BearingEngine' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/BearingEngineTests.swift:39:24: error: cannot find 'BearingEngine' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/BearingEngineTests.swift:43:24: error: cannot find 'BearingEngine' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/BearingEngineTests.swift:44:24: error: cannot find 'BearingEngine' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/BearingEngineTests.swift:49:24: error: cannot find 'BearingEngine' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/BearingEngineTests.swift:54:24: error: cannot find 'BearingEngine' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/BearingEngineTests.swift:61:13: error: cannot find 'BearingEngine' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/BearingEngineTests.swift:61:88: error: type 'Equatable' has no member 'hour'
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/BearingEngineTests.swift:66:13: error: cannot find 'BearingEngine' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/BearingEngineTests.swift:66:90: error: type 'Equatable' has no member 'unavailable'
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/BearingEngineTests.swift:71:13: error: cannot find 'BearingEngine' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/BearingEngineTests.swift:71:88: error: type 'Equatable' has no member 'unavailable'
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:7:26: error: cannot find 'BuildingDetail' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:11:28: error: cannot find type 'BuildingDetail' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:12:46: error: cannot find type 'BuildingDetail' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:10:31: error: cannot find type 'BuildingDetailServicing' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:17:18: error: cannot find 'DetailViewModel' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:17:70: error: cannot infer contextual base in reference to member 'success'
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:28:18: error: cannot find 'DetailViewModel' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:28:70: error: cannot infer contextual base in reference to member 'success'
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:37:23: error: cannot find 'BuildingDetail' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:38:18: error: cannot find 'DetailViewModel' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:38:70: error: cannot infer contextual base in reference to member 'success'
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:46:18: error: cannot find 'DetailViewModel' in scope
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:46:70: error: cannot infer contextual base in reference to member 'failure'
+/Users/gijeon/MindMap/InnerMap/ios/InnerMapTests/DetailViewModelTests.swift:46:79: error: cannot infer contextual base in reference to member 'network'
+** TEST FAILED **
