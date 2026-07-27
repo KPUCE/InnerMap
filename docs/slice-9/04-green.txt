@@ -1,0 +1,23 @@
+# #9 GREEN — 전체 통과 출력 (2026-07-28)
+
+## 서버 22/22 (신규 5 포함)
+✔ limit 비정수 → 400 INVALID_PARAM (1.772833ms)
+✔ 스모크: 테스트 러너가 동작한다 (0.302416ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 192.386875
+
+## iOS — 유닛(BearingEngine 12·DetailViewModel 4·SearchViewModel 5) + UI 4
+Test Suite 'DetailViewModelTests' passed at 2026-07-28 00:50:15.009.
+Test Suite 'SearchViewModelTests' passed at 2026-07-28 00:50:15.012.
+Test Suite 'InnerMapTests.xctest' passed at 2026-07-28 00:50:15.012.
+Test Suite 'All tests' passed at 2026-07-28 00:50:15.012.
+Test Suite 'SearchFlowUITests' passed at 2026-07-28 00:50:33.673.
+Test Suite 'InnerMapUITests.xctest' passed at 2026-07-28 00:50:33.673.
+Test Suite 'All tests' passed at 2026-07-28 00:50:33.674.
+** TEST SUCCEEDED **
