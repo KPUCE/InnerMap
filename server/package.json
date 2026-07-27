@@ -3,6 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "migrate": "node-pg-migrate",
+    "seed": "node seed/run-sql.js seed/seed.sql"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "node-pg-migrate": "^9.0.0",
+    "pg": "^8.22.0"
   }
 }
