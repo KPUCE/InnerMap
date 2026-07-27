@@ -83,7 +83,20 @@ psql -l               # postgres/template0/template1, 소유주 gijeon
 Homebrew PostgreSQL은 첫 기동 때 **현재 macOS 사용자(gijeon)를 슈퍼유저**로 하는 클러스터를 만든다.
 기본 DB로 `postgres`가 있고, 사용자 이름과 같은 DB는 아직 없다. 슬라이스용 개발 DB는 3단계(마이그레이션·시드)에서 만든다.
 
-## 5. 남은 작업 / 알아둘 것
+## 5. iOS 도구 (#8에서 추가)
+
+```bash
+brew install xcodegen        # 2.46.0 — ios/project.yml → InnerMap.xcodeproj 생성
+cd ios && xcodegen generate  # .xcodeproj를 다시 만들 때(프로젝트 정의 변경 시)
+```
+
+> ⚠️ 함정: Homebrew 설치가 Command Line Tools를 깔면서 `xcode-select`가 CLT를 가리키게 될 수 있다.
+> `xcodebuild`가 "requires Xcode" 오류를 내면: `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`
+> (상세: docs/slice-7/06-detours.md D3)
+
+로컬 실행 조합: PostgreSQL 기동 → `cd server && DATABASE_URL=... node src/server.js` → 시뮬레이터에서 InnerMap 앱 실행(기본 서버 주소 `http://127.0.0.1:3000`).
+
+## 6. 남은 작업 / 알아둘 것
 
 - [ ] `gh auth login` — 아직 로그인 안 됨. 이슈 조회는 지금까지 공개 GitHub API(curl)로 우회했다. PR 생성 단계에서 로그인 필요.
 - [ ] 슬라이스용 개발 DB 생성은 3단계에서.

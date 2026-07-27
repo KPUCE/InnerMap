@@ -21,18 +21,27 @@
 
 **5단계 서버 구현 — 완료.** `server/src/app.js`(81줄)·`server/src/server.js`. GREEN 증거 `04-green.txt`(17/17, 첫 실행 통과 — RED→GREEN 사이 시행착오 없음도 기록). express@5 추가.
 
-## 지금 하는 중 — 6단계 서버 PR (#7)
+## 완료 — #7 서버 PR 머지됨
 
-- 브랜치 `feature/7-search-api`에 커밋 완료. **푸시·PR 대기: `gh auth login` 필요(저자).**
-- ⚠️ **PR이 300줄 상한 초과 예정** — `package-lock.json` +1283줄. 분할 불가(lockfile). `size:exempt` 라벨(PO 승인 통로) 필요 — 저자 승인 대기.
-- PR 후: CI 실행 링크·잡 결과를 `07-ci-runs.md`에 기록. 머지는 저자 승인+보호 규칙 절차(§7 — 규칙 80789141 일시 해제는 저자만, 머지 후 원복 보고).
+- [PR #29](https://github.com/KPUCE/InnerMap/pull/29) → main `0ba7c9f`로 Squash 머지(2026-07-27). 이슈 #7 자동 닫힘. CI 기록 `07-ci-runs.md`. `size:exempt` 예외 통로 첫 실전 작동. 보호 규칙(관리자 포함 강제) 원복 확인됨.
+
+## 지금 하는 중 — iOS #8 (`feature/8-search-screen`)
+
+구현·검증 완료, PR 준비 중.
+- XcodeGen(A안, 저자 채택): `ios/project.yml` → `InnerMap.xcodeproj`(공유 스킴 `InnerMap` = CI ios-build와 일치).
+- 소스: `InnerMapApp` · `Models` · `SearchService`(127.0.0.1:3000) · `SearchViewModel`(상태 전이·낭독 문구) · `SearchView`(AC ①~③: 접근성 레이블·행 합침·0건 접근성 알림·검색 필드 포커스 복귀).
+- 현재 위치는 캠퍼스 앵커(공학관E동) 고정 — CoreLocation은 E2 몫(01-design-notes). **저자 사후 확인 필요.**
+- 테스트: 유닛 5(뷰모델) + UI 4(XCUITest, `UITEST_QUERY` 훅) 전부 통과 — `08-ios-tests.txt`. 시행착오 4건은 `06-detours.md` D3~D6.
+- 시뮬레이터 실물 확인: "도서관" → 종합교육관 · 약 135m · 별칭 도서관 (서버 연동).
 
 ## 다음 차례
 
-1. 6단계 마무리: 푸시 → PR(템플릿 성실 기재) → CI 확인 → `07-ci-runs.md` → 저자 리뷰·머지.
-2. iOS #8: Xcode 프로젝트 생성부터(플레이스홀더 상태). 검색 화면·API 연동·VoiceOver AC 3개·`feature/8-search-screen` PR.
+1. #8 커밋 → 푸시 → PR(`feature/8-search-screen`) → CI(ios-build 첫 실전) → 저자 리뷰·머지(보호 규칙 해제→원복 절차 동일).
+2. 슬라이스 마무리: `00-status.md` 최종 갱신, 잔여 미결 정리.
 
 ## 미결 질문
-- `size:exempt` 라벨 사용 승인(PO=저자).
-- L1~L4 위임 수준 정의가 저장소에 없음 — `05-prompt-log.md`의 표기는 잠정, 교재 용어집과 대조 필요.
-- 한글 trigram 정밀도·재현성 대규모 검증(ADR-007 미검증 항목) — 이번 슬라이스 범위 밖.
+- iOS 현재 위치 앵커 고정(공학관E동) — 저자 확인 대기.
+- UI 테스트 실행 전제(로컬 서버+시드)가 CI엔 없음 — ios-build는 컴파일만. UI 테스트의 CI 편입 여부는 후속 논의.
+- L1~L4 위임 수준 정의가 저장소에 없음 — `05-prompt-log.md` 표기는 잠정.
+- 한글 trigram 정밀도·재현성 대규모 검증(ADR-007) — 범위 밖.
+- 실기기 VoiceOver 완주(AC ③ 후반) — 시뮬레이터로 절반 검증, 실기기는 사람 몫.
