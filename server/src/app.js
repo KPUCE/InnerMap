@@ -75,6 +75,32 @@ function createApp() {
     }
   });
 
+  // #9 건물 상세 — 명세: docs/slice-9/design.md. 미게시는 404로 존재 은닉(R-12b)
+  app.get('/api/buildings/:id', async (req, res) => {
+    const { id } = req.params;
+    if (!/^\d+$/.test(id)) {
+      return badRequest(res, 'INVALID_PARAM', 'id는 양의 정수여야 합니다.');
+    }
+    try {
+      const { rows } = await pool.query(
+        `SELECT b.id, b.name, b.lat, b.lng,
+                coalesce(array_agg(a.alias ORDER BY a.alias)
+                         FILTER (WHERE a.alias IS NOT NULL), '{}') AS aliases
+         FROM building b
+         LEFT JOIN building_alias a ON a.building_id = b.id
+         WHERE b.id = $1 AND b.status = 'published'
+         GROUP BY b.id`, [id]);
+      if (rows.length === 0) {
+        return res.status(404).json({ error_code: 'NOT_FOUND', message: '건물을 찾을 수 없습니다.' });
+      }
+      const r = rows[0];
+      res.json({ id: Number(r.id), name: r.name, lat: r.lat, lng: r.lng, aliases: r.aliases });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error_code: 'INTERNAL', message: '서버 오류가 발생했습니다.' });
+    }
+  });
+
   return app;
 }
 
