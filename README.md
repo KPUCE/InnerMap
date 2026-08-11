@@ -23,6 +23,7 @@
 
 ## 문서
 - 생성형 AI를 활용한 소프트웨어 개발방법론 교재 (https://github.com/KPUCE/InnerMap/blob/main/docs/00-%EC%83%9D%EC%84%B1%ED%98%95AI%EA%B5%90%EC%9E%AC%EC%99%84%EC%84%B1%EB%B3%B8_SW%EC%A4%91%EC%8B%AC%EB%8C%80%EA%B3%B5%EB%8F%99%EA%B5%90%EC%9E%AC%EA%B0%9C%EB%B0%9C_20260808_17.pdf)
+- 생성형 AI를 활용한 소프트웨어 개발방법론 요약본 (https://github.com/KPUCE/InnerMap/blob/main/docs/04-%EC%83%9D%EC%84%B1%ED%98%95AI%EA%B5%90%EC%9E%AC_%EC%9E%A5%EB%B3%84%EC%9A%94%EC%95%BD%EB%B3%B8_%EA%B0%9C%EC%A1%B0%EC%8B%9D_20260729_3.pdf)
 - 요구사항: docs/InnerMap_SRS_v2.md (원본 docx는 팀 드라이브)
 - 설계: docs/InnerMap_시스템설계문서.md · ADR: docs/adr/
 - 백로그·로드맵: docs/InnerMap_ProductBacklog.md
